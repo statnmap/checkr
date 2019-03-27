@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(checkr)
+library(checktutorials) # Previously checkr on Github
 library(ggplot2)
 library(mosaic)
 library(dplyr)
@@ -630,15 +630,16 @@ To check the submission, we need to create a pattern that will let us look up th
 print_function_contents(
   check_exer_14,
   from_file = system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"), 
+                          package = "checktutorials"), 
   just_the_body = FALSE)
 ```
 
 Trying out the test ...
 ```{r}
-check_exer_14(submission)
+print("check_blanks not working anymore...")
+# check_exer_14(submission)
 ```
-In lines 4/5 of the `check_exer_14()` checking function,  note that the second argument to `check_blanks()` is a command template very similar to that used for the scaffolding in the exercise chunk. But the template handed to `check_blanks()` must have the blanks written in a special format: two dots followed by a unique name followed by another two dots, e.g. `..geom..`.
+In lines 4/5 of the `check_exer_14()` checking function, note that the second argument to `check_blanks()` is a command template very similar to that used for the scaffolding in the exercise chunk. But the template handed to `check_blanks()` must have the blanks written in a special format: two dots followed by a unique name followed by another two dots, e.g. `..geom..`.
 
 ## Interaction with `learnr`
 

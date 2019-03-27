@@ -10,7 +10,6 @@
 \alias{two_sided}
 \alias{lhs_equals}
 \alias{rhs_equals}
-\alias{rhs_contains}
 \title{Testing functions for formulas}
 \usage{
 formula_equals(F, target)

@@ -12,54 +12,287 @@
 
 <meta name="author" content="Daniel Kaplan" />
 
-<meta name="date" content="2018-02-27" />
+<meta name="date" content="2019-03-27" />
 
 <title>Using checkr</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -69,8 +302,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Using <code>checkr</code></h1>
-<h4 class="author"><em>Daniel Kaplan</em></h4>
-<h4 class="date"><em>2018-02-27</em></h4>
+<h4 class="author">Daniel Kaplan</h4>
+<h4 class="date">2019-03-27</h4>
 
 
 
@@ -106,11 +339,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Is the R-squared at least 0.30?</li>
 </ol>
 <p>Consider several possible student submissions:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1 &lt;-<span class="st"> &quot;lm(mpg ~ hp, data = mtcars)&quot;</span> <span class="co"># Right!</span>
-s1wrong &lt;-<span class="st"> &quot;lm(mpg ~ hp, data = head(mtcars))&quot;</span>
-s2 &lt;-<span class="st"> &quot;mod &lt;- lm(mpg ~ hp, data = mtcars); summary(mod)&quot;</span> <span class="co"># Right!</span>
-s2wrong &lt;-<span class="st"> &quot;mod &lt;- lm(hp ~ mpg, data = mtcars); summary(mod)&quot;</span>
-s3wrong &lt;-<span class="st"> &quot;for_me &lt;- mtcars; mosaic::rsquared(lm(data = for_me, mpg ~ 1))&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">s1 &lt;-<span class="st"> &quot;lm(mpg ~ hp, data = mtcars)&quot;</span> <span class="co"># Right!</span></a>
+<a class="sourceLine" id="cb1-2" title="2">s1wrong &lt;-<span class="st"> &quot;lm(mpg ~ hp, data = head(mtcars))&quot;</span></a>
+<a class="sourceLine" id="cb1-3" title="3">s2 &lt;-<span class="st"> &quot;mod &lt;- lm(mpg ~ hp, data = mtcars); summary(mod)&quot;</span> <span class="co"># Right!</span></a>
+<a class="sourceLine" id="cb1-4" title="4">s2wrong &lt;-<span class="st"> &quot;mod &lt;- lm(hp ~ mpg, data = mtcars); summary(mod)&quot;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">s3wrong &lt;-<span class="st"> &quot;for_me &lt;- mtcars; mosaic::rsquared(lm(data = for_me, mpg ~ 1))&quot;</span></a></code></pre></div>
 <p>Some of these are right and some are wrong. (<code>s2wrong</code> will produce a model with a passing R-squared, but it’s a model of <code>hp</code> rather than <code>mpg</code>. <code>s3wrong</code> has a model formula that cannot produce any R-squared but zero.) The commands have different structures. In <code>s1</code>, even though it’s a satisfactory model, the R-squared is not calculated at all. (Perhaps the student “cleaned up” their code before submitting.)</p>
 <p>One pedagogical choice would be to insist that the student submission follow a specific template. The pedagogical choice I’ll make here is to focus on the model itself and accept variant forms of the submission so long as they make a model with the specified qualities.</p>
 <p>The <code>checkr</code> package provides a means to implement your pedagogical choices. To illustrate, consider the function <code>check_exer_1()</code> defined below. <code>Check_exer_1()</code> uses several <code>checkr</code> functions that have not yet been explained, so on a first reading it will be hard to make sense of. Still, it may give you a general impression.</p>
@@ -119,61 +352,52 @@ s3wrong &lt;-<span class="st"> &quot;for_me &lt;- mtcars; mosaic::rsquared(lm(da
  [2]     lm_line &lt;- line_calling(code, lm, message = &quot;Use lm() to construct the model.&quot;)
  [3]     lm_call &lt;- arg_calling(lm_line, lm)
  [4]     t1 &lt;- data_arg(lm_call, insist(identical(V, mtcars), &quot;Your data argument {{E}} was not `mtcars`.&quot;), 
- [5]         message = &quot;You didn't supply a `data = ` argument to `lm()`.&quot;)
+ [5]         message = &quot;You didn&#39;t supply a `data = ` argument to `lm()`.&quot;)
  [6]     if (failed(t1)) 
  [7]         return(t1)
- [8]     f &lt;- formula_arg(lm_call, message = &quot;You didn't give a formula specifying the structure of the model.&quot;)
- [9]     t2 &lt;- check(f, insist(two_sided(f), &quot;There's no response variable in your formula.&quot;))
+ [8]     f &lt;- formula_arg(lm_call, message = &quot;You didn&#39;t give a formula specifying the structure of the model.&quot;)
+ [9]     t2 &lt;- check(f, insist(two_sided(f), &quot;There&#39;s no response variable in your formula.&quot;))
 [10]     t2 &lt;- check(t2, insist(rlang::f_lhs(E) == as.name(&quot;mpg&quot;), 
 [11]         paste(&quot;You need to have the miles-per-gallon variable&quot;, 
-[12]             &quot;on the left side of the model formula.&quot;, &quot;You've got {{rlang::f_lhs(V)}} instead.&quot;)))
+[12]             &quot;on the left side of the model formula.&quot;, &quot;You&#39;ve got {{rlang::f_lhs(V)}} instead.&quot;)))
 [13]     if (failed(t2)) 
 [14]         return(t2)
-[15]     check(lm_call, insist(summary(V)$r.squared &gt; 0.3, &quot;Your R-squared is {{summary(V)$r.squared}}. That's too small.&quot;), 
+[15]     check(lm_call, insist(summary(V)$r.squared &gt; 0.3, &quot;Your R-squared is {{summary(V)$r.squared}}. That&#39;s too small.&quot;), 
 [16]         passif(TRUE, &quot;Great job!&quot;)) 
 }</code></pre>
 <p><code>Checkr</code> provides functions like <code>line_calling()</code>, <code>formula_arg()</code>, <code>data_arg()</code>, <code>insist()</code>, and <code>check()</code>.</p>
 <p>Evaluating the various test cases of submissions with the <code>check_exer_1()</code> function shows how relevant and useful feedback can be given while largely disregarding coding style.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1</span>(s1)
-<span class="co">#&gt; checkr result *pass* with message:</span>
-<span class="co">#&gt; Great job!</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^lm(mpg ~ hp, data = mtcars)</span>
-<span class="co">#&gt;   env:  0x7f8ed5bd0318</span>
-<span class="kw">check_exer_1</span>(s1wrong)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Your data argument head(mtcars) was not `mtcars`.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^head(mtcars)</span>
-<span class="co">#&gt;   env:  0x7f8ed49ae8d8</span>
-<span class="kw">check_exer_1</span>(s2)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; call to_function</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^mod &lt;- lm(mpg ~ hp, data = mtcars)</span>
-<span class="co">#&gt;   env:  0x7f8ecd32cfc0</span>
-<span class="kw">check_exer_1</span>(s2wrong)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; call to_function</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^mod &lt;- lm(hp ~ mpg, data = mtcars)</span>
-<span class="co">#&gt;   env:  0x7f8ed4e8bed8</span>
-<span class="kw">check_exer_1</span>(s3wrong)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Your R-squared is 0. That's too small.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^lm(data = for_me, mpg ~ 1)</span>
-<span class="co">#&gt;   env:  0x7f8ed420b9b8</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">check_exer_1</span>(s1)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; Warning: Taking the `names()` of the `.data` pronoun is deprecated</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; This warning is displayed once per session.</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="kw">check_exer_1</span>(s1wrong)</a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="kw">check_exer_1</span>(s2)</a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; call to_function</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; expr: ^mod &lt;- lm(mpg ~ hp, data = mtcars)</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; env:  0x561fc02c1490</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="kw">check_exer_1</span>(s2wrong)</a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; call to_function</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt; expr: ^mod &lt;- lm(hp ~ mpg, data = mtcars)</span></a>
+<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt; env:  0x561fc10d43e0</span></a>
+<a class="sourceLine" id="cb3-25" title="25"><span class="kw">check_exer_1</span>(s3wrong)</a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt; Warning in if (as.character(tidy_expr[[1]]) == &quot;~&quot;) return(&quot;~&quot;): la</span></a>
+<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; condition a une longueur &gt; 1 et seul le premier élément est utilisé</span></a>
+<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt; Warning in if (as.character(tidy_expr[[1]]) == &quot;~&quot;) return(&quot;~&quot;): la</span></a>
+<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; condition a une longueur &gt; 1 et seul le premier élément est utilisé</span></a>
+<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a></code></pre></div>
 <p>The printed form of the result includes whether the submission passed or failed, a congratulatory or diagnostic message, and the component of the code being checked at the point where the test passed or failed. When integrated with a tutorial system such as <code>learnr</code>, the <code>checkr</code> result is formatted as appropriate for that user interface. (For instance the code component is mainly of interest to the author of checking functions, not the student.)</p>
 </div>
 </div>
@@ -184,105 +408,90 @@ s3wrong &lt;-<span class="st"> &quot;for_me &lt;- mtcars; mosaic::rsquared(lm(da
 <p><strong>Exercise 2</strong>: Use the <code>rep()</code> function, with <code>1:4</code> as an input, to generate the 12-element vector <code>1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4</code></p>
 </blockquote>
 <p>The most flexibility comes by checking if the correct result was produced. You can check the value produced by a line with the pronoun <code>V</code> (for value). Like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check_exer_1_v0 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)
-  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">check_exer_<span class="dv">1</span>_v0 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb4-2" title="2">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb4-3" title="3">  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))</a>
+<a class="sourceLine" id="cb4-5" title="5">}</a></code></pre></div>
 <p>This may be more flexbility than desired. Here’s a cheating solution that passes:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1_v0</span>(<span class="st">&quot;c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)&quot;</span>)
-<span class="co">#&gt; checkr result: *ok*</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)</span>
-<span class="co">#&gt;   env:  0x7f8ed66ca108</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">check_exer_1_v0</span>(<span class="st">&quot;c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; checkr result: *ok*</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; expr: ^c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; env:  0x561fbc64e800</span></a></code></pre></div>
 <p>Another approach is to have in mind a specific command and check for exactly that. This provides little or no flexibility. For instance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check_exer_1_v1 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  <span class="kw">line_binding</span>(code, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>), <span class="kw">passif</span>(<span class="ot">TRUE</span>, <span class="st">&quot;Just what I wanted!&quot;</span>), 
-               <span class="dt">message =</span> <span class="st">&quot;Sorry. Not exactly what I was looking for.&quot;</span>)
-}</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">check_exer_<span class="dv">1</span>_v1 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb6-2" title="2">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="kw">line_binding</span>(code, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>), <span class="kw">passif</span>(<span class="ot">TRUE</span>, <span class="st">&quot;Just what I wanted!&quot;</span>), </a>
+<a class="sourceLine" id="cb6-4" title="4">               <span class="dt">message =</span> <span class="st">&quot;Sorry. Not exactly what I was looking for.&quot;</span>)</a>
+<a class="sourceLine" id="cb6-5" title="5">}</a></code></pre></div>
 <p>This won’t be fooled by the cheating answer …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)&quot;</span>)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Sorry. Not exactly what I was looking for.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)</span>
-<span class="co">#&gt;   env:  0x7f8ed4440980</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)&quot;</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; Sorry. Not exactly what I was looking for.</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; expr: ^c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; env:  0x561fbb1c5790</span></a></code></pre></div>
 <p>… and it will work with a command matching that specified, even allowing assignment or trivial white-space changes …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;x &lt;- rep(1:4,each=3); x&quot;</span>)
-<span class="co">#&gt; checkr result *pass* with message:</span>
-<span class="co">#&gt; Just what I wanted!</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^x &lt;- rep(1:4, each = 3)</span>
-<span class="co">#&gt;   env:  0x7f8ed4d564a0</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;x &lt;- rep(1:4,each=3); x&quot;</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a></code></pre></div>
 <p>But here are reasonable student submissions that won’t pass the test:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;x &lt;- 1:4; rep(x, each = 3)&quot;</span>)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Sorry. Not exactly what I was looking for.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^x &lt;- 1:4</span>
-<span class="co">#&gt;   env:  0x7f8ed1116830</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^rep(x, each = 3)</span>
-<span class="co">#&gt;   env:  0x7f8ed1112ee0</span>
-<span class="kw">check_exer_1_v1</span>(<span class="st">&quot;sort(rep(1:4, 3))&quot;</span>)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Sorry. Not exactly what I was looking for.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^sort(rep(1:4, 3))</span>
-<span class="co">#&gt;   env:  0x7f8ed61280b0</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;x &lt;- 1:4; rep(x, each = 3)&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; Sorry. Not exactly what I was looking for.</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; expr: ^x &lt;- 1:4</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; env:  0x561fbd7766d8</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; expr: ^rep(x, each = 3)</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; env:  0x561fbd778a90</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="kw">check_exer_1_v1</span>(<span class="st">&quot;sort(rep(1:4, 3))&quot;</span>)</a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; Sorry. Not exactly what I was looking for.</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt; expr: ^sort(rep(1:4, 3))</span></a>
+<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt; env:  0x561fbe3715e0</span></a></code></pre></div>
 <p>The challenge is to identify what aspects of the submission we require, but not to overspecify the details. For instance, the exercise statement specifies using <code>rep()</code> and that one argument will be <code>1:4</code>. To test this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check_exer_1_v2 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)
-  line_a &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, rep, <span class="dt">message =</span> <span class="st">&quot;I'm not seeing where you used `rep()`.&quot;</span>)
-  t1 &lt;-<span class="st"> </span><span class="kw">vector_arg</span>(line_a, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="st">&quot;Where did you use `1:4`?&quot;</span>))
-  <span class="cf">if</span> (<span class="kw">failed</span>(t1)) <span class="kw">return</span>(t1)
-  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))
-}</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_1_v2</span>(<span class="st">&quot;x &lt;- 1:4; rep(x, each = 3)&quot;</span>)
-<span class="co">#&gt; checkr result: *ok*</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^rep(x, each = 3)</span>
-<span class="co">#&gt;   env:  0x7f8ed6b084d8</span>
-<span class="kw">check_exer_1_v2</span>(<span class="st">&quot;sort(rep(1:4, 3))&quot;</span>)
-<span class="co">#&gt; checkr result: *ok*</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^sort(rep(1:4, 3))</span>
-<span class="co">#&gt;   env:  0x7f8ed5085470</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">check_exer_<span class="dv">1</span>_v2 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb10-2" title="2">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb10-3" title="3">  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb10-4" title="4">  line_a &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, rep, <span class="dt">message =</span> <span class="st">&quot;I&#39;m not seeing where you used `rep()`.&quot;</span>)</a>
+<a class="sourceLine" id="cb10-5" title="5">  t1 &lt;-<span class="st"> </span><span class="kw">vector_arg</span>(line_a, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="st">&quot;Where did you use `1:4`?&quot;</span>))</a>
+<a class="sourceLine" id="cb10-6" title="6">  <span class="cf">if</span> (<span class="kw">failed</span>(t1)) <span class="kw">return</span>(t1)</a>
+<a class="sourceLine" id="cb10-7" title="7">  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))</a>
+<a class="sourceLine" id="cb10-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">check_exer_1_v2</span>(<span class="st">&quot;x &lt;- 1:4; rep(x, each = 3)&quot;</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="kw">check_exer_1_v2</span>(<span class="st">&quot;sort(rep(1:4, 3))&quot;</span>)</a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a></code></pre></div>
 <p>If the point of the exercise is to have the student see that <code>rep()</code> has optional named arguments, perhaps you want to check if the line involving <code>rep()</code> also has an argument named <code>each</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check_exer_1_v3 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)
-  LineA &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, rep, <span class="dt">message =</span> <span class="st">&quot;I'm not seeing where you used `rep()`.&quot;</span>)
-  t1 &lt;-<span class="st"> </span><span class="kw">vector_arg</span>(LineA, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="st">&quot;Where did you use `1:4`?&quot;</span>))
-  <span class="cf">if</span> (<span class="kw">failed</span>(t1)) <span class="kw">return</span>(t1)
-  rep_call &lt;-<span class="st"> </span><span class="kw">arg_calling</span>(LineA, rep) <span class="co"># in case rep() is buried in another function application, e.g. 1 * rep()</span>
-  t2 &lt;-<span class="st"> </span><span class="kw">named_arg</span>(rep_call, <span class="st">&quot;each&quot;</span>, 
-                  <span class="kw">insist</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="st">&quot;Remember, you want 12 elements in the output made from the 4 elements in the input&quot;</span>), 
-                  <span class="dt">message =</span> <span class="st">&quot;See what use you can make of the `each` argument to rep().&quot;</span>)
-  <span class="cf">if</span> (<span class="kw">failed</span>(t2)) <span class="kw">return</span>(t2)
-  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))
-}</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">check_exer_<span class="dv">1</span>_v3 &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb12-2" title="2">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb12-3" title="3">  desired &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb12-4" title="4">  LineA &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, rep, <span class="dt">message =</span> <span class="st">&quot;I&#39;m not seeing where you used `rep()`.&quot;</span>)</a>
+<a class="sourceLine" id="cb12-5" title="5">  t1 &lt;-<span class="st"> </span><span class="kw">vector_arg</span>(LineA, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="st">&quot;Where did you use `1:4`?&quot;</span>))</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="cf">if</span> (<span class="kw">failed</span>(t1)) <span class="kw">return</span>(t1)</a>
+<a class="sourceLine" id="cb12-7" title="7">  rep_call &lt;-<span class="st"> </span><span class="kw">arg_calling</span>(LineA, rep) <span class="co"># in case rep() is buried in another function application, e.g. 1 * rep()</span></a>
+<a class="sourceLine" id="cb12-8" title="8">  t2 &lt;-<span class="st"> </span><span class="kw">named_arg</span>(rep_call, <span class="st">&quot;each&quot;</span>, </a>
+<a class="sourceLine" id="cb12-9" title="9">                  <span class="kw">insist</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="st">&quot;Remember, you want 12 elements in the output made from the 4 elements in the input&quot;</span>), </a>
+<a class="sourceLine" id="cb12-10" title="10">                  <span class="dt">message =</span> <span class="st">&quot;See what use you can make of the `each` argument to rep().&quot;</span>)</a>
+<a class="sourceLine" id="cb12-11" title="11">  <span class="cf">if</span> (<span class="kw">failed</span>(t2)) <span class="kw">return</span>(t2)</a>
+<a class="sourceLine" id="cb12-12" title="12">  <span class="kw">line_where</span>(code, <span class="kw">insist</span>(<span class="kw">all</span>(V <span class="op">==</span><span class="st"> </span>desired), <span class="st">&quot;Your vector is {{V}}. That is not the result asked for.&quot;</span>))</a>
+<a class="sourceLine" id="cb12-13" title="13">}</a></code></pre></div>
 </div>
 <div id="starting-out" class="section level2">
 <h2>Starting out</h2>
@@ -300,92 +509,92 @@ s3wrong &lt;-<span class="st"> &quot;for_me &lt;- mtcars; mosaic::rsquared(lm(da
 </blockquote>
 <div id="examples-of-possible-submissions" class="section level3">
 <h3>1. Examples of possible submissions</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Circuits &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">Circuits &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</a></code></pre></div>
 <p>Response: Right!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Circuits &lt;-<span class="st"> </span><span class="kw">load</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">Circuits &lt;-<span class="st"> </span><span class="kw">load</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</a></code></pre></div>
 <p>Response: Notice that the filename has a CSV extension. <code>load()</code> is for reading RDA files. Try <code>read.csv()</code> instead.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</a></code></pre></div>
 <p>Response: Remember to store the contents of the data file under the name <code>Circuits</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>)</a></code></pre></div>
 <p>Response: Store the data under the name <code>Circuits</code>, not <code>bees</code>.</p>
 <p>Of course, there are many other possibilities. Students are particularly good at finding them.</p>
 </div>
 <div id="create-a-script-file" class="section level3">
 <h3>2. Create a script file</h3>
 <p>Open up an R script file and add your example submissions. Let’s suppose the file is named <code>check_bee_data.R</code>. It will look like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is file check_bee_data.R</span>
-s1 &lt;-<span class="st"> </span><span class="kw">quote</span>(Circuits &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))
-s2 &lt;-<span class="st"> </span><span class="kw">quote</span>(Circuits &lt;-<span class="st"> </span><span class="kw">load</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))
-s3 &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))
-s4 &lt;-<span class="st"> </span><span class="kw">quote</span>(bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># this is file check_bee_data.R</span></a>
+<a class="sourceLine" id="cb17-2" title="2">s1 &lt;-<span class="st"> </span><span class="kw">quote</span>(Circuits &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb17-3" title="3">s2 &lt;-<span class="st"> </span><span class="kw">quote</span>(Circuits &lt;-<span class="st"> </span><span class="kw">load</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb17-4" title="4">s3 &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb17-5" title="5">s4 &lt;-<span class="st"> </span><span class="kw">quote</span>(bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;</span>))</a></code></pre></div>
 <p>The <code>quote()</code> function will be unfamiliar to many R users. It provides a way to objects that contain executable expressions.</p>
 </div>
 <div id="create-the-checking-function" class="section level3">
 <h3>3. Create the checking function</h3>
 <p>A checking function takes a submission, for example <code>s1</code> or <code>s2</code>, and returns a value indicating whether the submission passes or fails along with an appropriate congratulatory or explanatory message. The function has a straightforward skeleton.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we are still in the file check_bee_data.R</span>
-check_bee_data &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  <span class="co"># The messages </span>
-  m1 &lt;-<span class="st"> &quot;Right!&quot;</span>
-  m2 &lt;-<span class="st"> &quot;Notice that the filename has a CSV extension. `load()` is for reading RDA files. Try `read.csv()` instead.&quot;</span>
-  m3 &lt;-<span class="st"> &quot;Remember to store the contents of the data file under the name `Circuits`.&quot;</span>
-  m4 &lt;-<span class="st"> &quot;Store the data under the name `Circuits`, not `{{Z}}`.&quot;</span>
-  
-  <span class="co"># The checking statements will follow</span>
-  
-}</code></pre></div>
-<p>The messages are plain text strings. I’ve named them (e.g. <code>m1</code>) purely for later convenience. Looking at <code>m4</code>, you’ll notice the characters <code>{{Z}}</code>. Similarly, there’s <code>{{F}}</code> in <code>m2</code>. Such “moustached” statements allow you to include in the message the result of some calculation. For <code>m4</code>, we want the assignment name used by the student. For <code>m2</code>, we want the name of the function actually used by the student.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="co"># we are still in the file check_bee_data.R</span></a>
+<a class="sourceLine" id="cb18-2" title="2">check_bee_data &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb18-3" title="3">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb18-4" title="4">  <span class="co"># The messages </span></a>
+<a class="sourceLine" id="cb18-5" title="5">  m1 &lt;-<span class="st"> &quot;Right!&quot;</span></a>
+<a class="sourceLine" id="cb18-6" title="6">  m2 &lt;-<span class="st"> &quot;Notice that the filename has a CSV extension. `load()` is for reading RDA files. Try `read.csv()` instead.&quot;</span></a>
+<a class="sourceLine" id="cb18-7" title="7">  m3 &lt;-<span class="st"> &quot;Remember to store the contents of the data file under the name `Circuits`.&quot;</span></a>
+<a class="sourceLine" id="cb18-8" title="8">  m4 &lt;-<span class="st"> &quot;Store the data under the name `Circuits`, not `{{Z}}`.&quot;</span></a>
+<a class="sourceLine" id="cb18-9" title="9">  </a>
+<a class="sourceLine" id="cb18-10" title="10">  <span class="co"># The checking statements will follow</span></a>
+<a class="sourceLine" id="cb18-11" title="11">  </a>
+<a class="sourceLine" id="cb18-12" title="12">}</a></code></pre></div>
+<p>The messages are plain text strings. I’ve named them (e.g. <code>m1</code>) purely for later convenience. Looking at <code>m4</code>, you’ll notice the characters <code>{{Z}}</code>. Similarly, there’s <code>{{F}}</code> in <code>m2</code>. Such “moustached” statements allow you to include in the message the result of some calculation. For <code>m4</code>, we want the assignment name used by the student. For <code>m2</code>, we want the name of the function actually used by the student.</p>
 <p>At this point, you need to start thinking about the order in which you want to check the submission. For instance, do you want to check the function being used or that a correctly named object is being created? In this example, we’ll start with the latter.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># also in the file check_bee_data.R</span>
-check_bee_data &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  <span class="co"># The messages </span>
-  m1 &lt;-<span class="st"> &quot;Right!&quot;</span>
-  m2 &lt;-<span class="st"> &quot;Notice that the filename has a CSV extension. `{{F}}` is for reading RDA files. Try `read.csv()` instead.&quot;</span>
-  m3 &lt;-<span class="st"> &quot;Remember to store the contents of the data file under the name `Circuits`.&quot;</span>
-  m4 &lt;-<span class="st"> &quot;Store the data under the name `Circuits`, not `{{Z}}`.&quot;</span>
-  
-  <span class="kw">browser</span>()
-  result &lt;-<span class="st"> </span><span class="kw">line_where</span>(code, 
-                      <span class="kw">passif</span>(Z <span class="op">==</span><span class="st"> &quot;Circuits&quot;</span>), 
-                      <span class="kw">failif</span>(Z <span class="op">==</span><span class="st"> &quot;&quot;</span>, m3), 
-                      <span class="kw">failif</span>(<span class="ot">TRUE</span>, m4))
-  
-  <span class="kw">return</span>(result) <span class="co"># return the result of the checking</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co"># also in the file check_bee_data.R</span></a>
+<a class="sourceLine" id="cb19-2" title="2">check_bee_data &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {</a>
+<a class="sourceLine" id="cb19-3" title="3">  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb19-4" title="4">  <span class="co"># The messages </span></a>
+<a class="sourceLine" id="cb19-5" title="5">  m1 &lt;-<span class="st"> &quot;Right!&quot;</span></a>
+<a class="sourceLine" id="cb19-6" title="6">  m2 &lt;-<span class="st"> &quot;Notice that the filename has a CSV extension. `{{F}}` is for reading RDA files. Try `read.csv()` instead.&quot;</span></a>
+<a class="sourceLine" id="cb19-7" title="7">  m3 &lt;-<span class="st"> &quot;Remember to store the contents of the data file under the name `Circuits`.&quot;</span></a>
+<a class="sourceLine" id="cb19-8" title="8">  m4 &lt;-<span class="st"> &quot;Store the data under the name `Circuits`, not `{{Z}}`.&quot;</span></a>
+<a class="sourceLine" id="cb19-9" title="9">  </a>
+<a class="sourceLine" id="cb19-10" title="10">  <span class="kw">browser</span>()</a>
+<a class="sourceLine" id="cb19-11" title="11">  result &lt;-<span class="st"> </span><span class="kw">line_where</span>(code, </a>
+<a class="sourceLine" id="cb19-12" title="12">                      <span class="kw">passif</span>(Z <span class="op">==</span><span class="st"> &quot;Circuits&quot;</span>), </a>
+<a class="sourceLine" id="cb19-13" title="13">                      <span class="kw">failif</span>(Z <span class="op">==</span><span class="st"> &quot;&quot;</span>, m3), </a>
+<a class="sourceLine" id="cb19-14" title="14">                      <span class="kw">failif</span>(<span class="ot">TRUE</span>, m4))</a>
+<a class="sourceLine" id="cb19-15" title="15">  </a>
+<a class="sourceLine" id="cb19-16" title="16">  <span class="kw">return</span>(result) <span class="co"># return the result of the checking</span></a>
+<a class="sourceLine" id="cb19-17" title="17">}</a></code></pre></div>
 <p>To find out what the pronoun <code>Z</code> stands for, see the documentation for <code>line_where()</code>, or look later in this vignette.</p>
 <p>The <code>check_bee_data()</code> function does not yet fully implement the tests needed for the various submissions, but it is a working function that handles <code>s3</code> and <code>s4</code>. You need merely run the submissions through the function to see this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># just checking ...</span>
-<span class="kw">check_bee_data</span>(s3)
-<span class="co">#&gt; Called from: check_bee_data(s3)</span>
-<span class="co">#&gt; debug at &lt;text&gt;#11: result &lt;- line_where(code, passif(Z == &quot;Circuits&quot;), failif(Z == </span>
-<span class="co">#&gt;     &quot;&quot;, m3), failif(TRUE, m4))</span>
-<span class="co">#&gt; debug at &lt;text&gt;#16: return(result)</span>
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Remember to store the contents of the data file under the name `Circuits`.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^read.csv(</span>
-<span class="co">#&gt;           &quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;)</span>
-<span class="co">#&gt;   env:  0x7f8ed614a350</span>
-<span class="kw">check_bee_data</span>(s4)
-<span class="co">#&gt; Called from: check_bee_data(s4)</span>
-<span class="co">#&gt; debug at &lt;text&gt;#11: result &lt;- line_where(code, passif(Z == &quot;Circuits&quot;), failif(Z == </span>
-<span class="co">#&gt;     &quot;&quot;, m3), failif(TRUE, m4))</span>
-<span class="co">#&gt; debug at &lt;text&gt;#16: return(result)</span>
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Store the data under the name `Circuits`, not `bees`.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^bees &lt;- read.csv(</span>
-<span class="co">#&gt;           &quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;)</span>
-<span class="co">#&gt;   env:  0x7f8ed65f3c38</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># just checking ...</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="kw">check_bee_data</span>(s3)</a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="co">#&gt; Called from: check_bee_data(s3)</span></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="co">#&gt; debug à &lt;text&gt;#11 :result &lt;- line_where(code, passif(Z == &quot;Circuits&quot;), failif(Z == </span></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="co">#&gt;     &quot;&quot;, m3), failif(TRUE, m4))</span></a>
+<a class="sourceLine" id="cb20-6" title="6"><span class="co">#&gt; debug à &lt;text&gt;#16 :return(result)</span></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb20-8" title="8"><span class="co">#&gt; Remember to store the contents of the data file under the name `Circuits`.</span></a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb20-10" title="10"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb20-12" title="12"><span class="co">#&gt; expr: ^read.csv(</span></a>
+<a class="sourceLine" id="cb20-13" title="13"><span class="co">#&gt;           &quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;)</span></a>
+<a class="sourceLine" id="cb20-14" title="14"><span class="co">#&gt; env:  0x561fc12372f0</span></a>
+<a class="sourceLine" id="cb20-15" title="15"><span class="kw">check_bee_data</span>(s4)</a>
+<a class="sourceLine" id="cb20-16" title="16"><span class="co">#&gt; Called from: check_bee_data(s4)</span></a>
+<a class="sourceLine" id="cb20-17" title="17"><span class="co">#&gt; debug à &lt;text&gt;#11 :result &lt;- line_where(code, passif(Z == &quot;Circuits&quot;), failif(Z == </span></a>
+<a class="sourceLine" id="cb20-18" title="18"><span class="co">#&gt;     &quot;&quot;, m3), failif(TRUE, m4))</span></a>
+<a class="sourceLine" id="cb20-19" title="19"><span class="co">#&gt; debug à &lt;text&gt;#16 :return(result)</span></a>
+<a class="sourceLine" id="cb20-20" title="20"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb20-21" title="21"><span class="co">#&gt; Store the data under the name `Circuits`, not `bees`.</span></a>
+<a class="sourceLine" id="cb20-22" title="22"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb20-23" title="23"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb20-24" title="24"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb20-25" title="25"><span class="co">#&gt; expr: ^bees &lt;- read.csv(</span></a>
+<a class="sourceLine" id="cb20-26" title="26"><span class="co">#&gt;           &quot;http://www.lock5stat.com/datasets/HoneybeeCircuits.csv&quot;)</span></a>
+<a class="sourceLine" id="cb20-27" title="27"><span class="co">#&gt; env:  0x561fbc234248</span></a></code></pre></div>
 <p>Another checking statement is needed to make sure that the <code>read.csv()</code> function is being used. It could be as simple as this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this will go in the `check_bee_data()` function</span>
-result &lt;-<span class="st"> </span><span class="kw">line_where</span>(result, <span class="kw">insist</span>(F <span class="op">==</span><span class="st"> &quot;read.csv&quot;</span>, m2))</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="co"># this will go in the `check_bee_data()` function</span></a>
+<a class="sourceLine" id="cb21-2" title="2">result &lt;-<span class="st"> </span><span class="kw">line_where</span>(result, <span class="kw">insist</span>(F <span class="op">==</span><span class="st"> &quot;read.csv&quot;</span>, m2))</a></code></pre></div>
 <p>Unfortunately, things are not so simple. We intend message <code>m2</code> to be given in response to submission <code>s2</code>. But there’s something special about <code>s2</code> as compared to the other submissions: <code>s2</code> generates a run-time error; <code>load()</code> is not set up to accept a character string URL as an argument. Such errors need to be trapped before the code is evaluated. We discuss the matter below in the section on re-evaluation checking.</p>
 </div>
 <div id="integrating-the-checking-with-learnr" class="section level3">
@@ -412,20 +621,20 @@ result &lt;-<span class="st"> </span><span class="kw">line_where</span>(result, 
 <div id="lines-functions-arguments-constants-names-values" class="section level3">
 <h3>Lines, functions, arguments, constants, names, values</h3>
 <p>Consider this sequence of R commands:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>
-<span class="kw">sqrt</span>(x)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">x &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">sqrt</span>(x)</a></code></pre></div>
 <p>The code is written on three lines typographically, but it’s also helpful to think about “lines” computationally. Informally, let’s define a <strong>line of code</strong> to be a set of characters which, if typed at the command prompt in the console, would cause the R interpreter to perform a computation rather than to prompt you with the + continuation. For instance, the following code consists of just one computational line even though typographically it is spread out over three lines on the page:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste</span>(<span class="st">&quot;How now&quot;</span>,
-      color, animal, 
-      <span class="st">&quot;?&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">paste</span>(<span class="st">&quot;How now&quot;</span>,</a>
+<a class="sourceLine" id="cb23-2" title="2">      color, animal, </a>
+<a class="sourceLine" id="cb23-3" title="3">      <span class="st">&quot;?&quot;</span>)</a></code></pre></div>
 <p>Every line of R code consists of one or more expressions, each of which could constitute a complete command and thus could compute a <strong>value</strong>. In the line <code>x &lt;- 3 / 5</code>, for example, you can see expressions <code>3</code> and <code>5</code>. As it happens, these two expressions are both <strong>constants</strong>. Another kind of constant is a character string: <code>&quot;like this&quot;</code>. In the line <code>sqrt(x)</code>, there is a simple expression, <code>x</code>, which is called a <strong>name</strong>. And, of course, there is a value assigned to the name <code>x</code> by the previous line. Other names in the examples are <code>sqrt</code>, and <code>`\`</code>. The values of those names were assigned by the R system itself during start-up. You can look at the value bound to any name by giving the name itself as a command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqrt
-<span class="co">#&gt; function (x)  .Primitive(&quot;sqrt&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">sqrt</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="co">#&gt; function (x)  .Primitive(&quot;sqrt&quot;)</span></a></code></pre></div>
 <p>Ignore for the moment the assignment part of the line; we’ll treat that separately.</p>
 <ul>
 <li>Statement 1: Every line in R is either a single constant or a single name or a function call.</li>
-<li>Statement 2: Every function call in R involves two parts: 1) the function itself (typically specified with a name, e.g. . <code>`+`</code>, <code>sqrt</code>, <code>paste</code>) and 2) the arguments to which the function is being applied.</li>
-<li>Statement 3: Every argument in a function call is either a single constant (e.g. <code>&quot;How now&quot;</code>) or a single name (e.g. <code>color</code>) or a function call.</li>
+<li>Statement 2: Every function call in R involves two parts: 1) the function itself (typically specified with a name, e.g. . <code>`+`</code>, <code>sqrt</code>, <code>paste</code>) and 2) the arguments to which the function is being applied.</li>
+<li>Statement 3: Every argument in a function call is either a single constant (e.g. <code>&quot;How now&quot;</code>) or a single name (e.g. <code>color</code>) or a function call.</li>
 </ul>
 <p>Some of the functions in <code>checkr</code> are intended to isolate a specific line. Other functions isolate a function call or an argument to a function. Once isolated, you can check the name of the function involved in the function call, or the name (if any) or value (always) used as an argument.</p>
 <p>PRACTICE IDENTIFYING the parts of a line as either a function call, a name, or a constant.</p>
@@ -433,163 +642,163 @@ result &lt;-<span class="st"> </span><span class="kw">line_where</span>(result, 
 <div id="quote-and-quo" class="section level3">
 <h3>Quote and quo</h3>
 <p>You’re used thinking of functions as creating dataframes or vectors and so on. You may not have directly encountered them, but there are special functions that create an R-language expression itself. Examples are <code>substitute()</code>, <code>parse()</code>, <code>expression()</code>. To illustrate, consider the <code>quote()</code> function. (Don’t be deceived: quote is not about creating character strings.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">foo</span>(f, g))</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">foo</span>(f, g))</a></code></pre></div>
 <p>A standard way to think about <code>foo(f, g)</code> is “perform the action of the function <code>foo()</code> on the two arguments: <code>f</code> and <code>g</code>. and then take the sine of the result.” But in terms of the language, you can see four names: <code>f</code>, <code>g</code>, <code>foo</code>. There’s also some punctuation: the parentheses that signal that <code>foo</code> is to be applied to its arguments and the comma that separates the two arguments.</p>
 <p>Think about what might be the value bound to the name <code>y</code> after the above line is evaluated. And while you’re doing it, assume that there is no defined function named <code>foo</code> and that no value has been yet bound to the names <code>f</code> and <code>g</code>.</p>
-<p>Ordinarily, referring to a valueless name like <code>f</code> generates an error: <code>Error: object 'f' not found</code>. But <code>quote()</code> is special. It doesn’t try to evaluate its argument and so it has no need for names to be bound to values. So the object <code>y</code> is not about the results of <code>foo(f, g)</code> but about its status as a command that can be evaluated later on. Instead, <code>quote()</code> figures out from the syntax of its argument that <code>foo(f, g)</code> is a call to a function. (A name followed immediately by an opening parenthesis is <em>always</em> a function call.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y        <span class="co"># display printed form</span>
-<span class="co">#&gt; foo(f, g)</span>
-<span class="kw">class</span>(y) <span class="co"># the object's class</span>
-<span class="co">#&gt; [1] &quot;call&quot;</span></code></pre></div>
+<p>Ordinarily, referring to a valueless name like <code>f</code> generates an error: <code>Error: object &#39;f&#39; not found</code>. But <code>quote()</code> is special. It doesn’t try to evaluate its argument and so it has no need for names to be bound to values. So the object <code>y</code> is not about the results of <code>foo(f, g)</code> but about its status as a command that can be evaluated later on. Instead, <code>quote()</code> figures out from the syntax of its argument that <code>foo(f, g)</code> is a call to a function. (A name followed immediately by an opening parenthesis is <em>always</em> a function call.)</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">y        <span class="co"># display printed form</span></a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="co">#&gt; foo(f, g)</span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="kw">class</span>(y) <span class="co"># the object&#39;s class</span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="co">#&gt; [1] &quot;call&quot;</span></a></code></pre></div>
 <p>The object <code>y</code> produced by <code>quote(foo(f, g))</code> is of class “call,” reflecting that the expression given as an argument to <code>quote()</code> is a function call. The printed form of <code>y</code> looks just like the argument to <code>quote()</code>. But you can choose to look at <code>y</code> in another way, as a list:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.list</span>(y)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; foo</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; f</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; g</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">as.list</span>(y)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="co">#&gt; foo</span></a>
+<a class="sourceLine" id="cb27-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb27-6" title="6"><span class="co">#&gt; f</span></a>
+<a class="sourceLine" id="cb27-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="co">#&gt; g</span></a></code></pre></div>
 <p>The list starts with the function name, with the remaining parts being the two arguments. In this example, each of the three items in the list are names:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lapply</span>(y, class)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">lapply</span>(y, class)</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb28-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb28-5" title="5"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb28-6" title="6"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb28-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb28-8" title="8"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb28-9" title="9"><span class="co">#&gt; [1] &quot;name&quot;</span></a></code></pre></div>
 <p>This list-like structure for a function call applies just as well to arithmetic and other <em>infix</em> functions. R allows you to create a call without using parentheses, for instance <code>2 + 3</code>. The internal storage of the expression is nonethess list-like. For instance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)
-<span class="kw">class</span>(y)
-<span class="co">#&gt; [1] &quot;call&quot;</span>
-<span class="kw">as.list</span>(y)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; `^`</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; x</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] 2</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="kw">class</span>(y)</a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="co">#&gt; [1] &quot;call&quot;</span></a>
+<a class="sourceLine" id="cb29-4" title="4"><span class="kw">as.list</span>(y)</a>
+<a class="sourceLine" id="cb29-5" title="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb29-6" title="6"><span class="co">#&gt; `^`</span></a>
+<a class="sourceLine" id="cb29-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb29-8" title="8"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb29-9" title="9"><span class="co">#&gt; x</span></a>
+<a class="sourceLine" id="cb29-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb29-11" title="11"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb29-12" title="12"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
 <p>Do note the backticks around the name in the first element of the list: <code>`^`</code>. In general, when you are referring to functions used with infix notation, you need to construct the function name with backticks. Examples: <code>||</code>, <code>*</code>, <code>&gt;</code>, and so on.</p>
 <p>Let’s consider a slightly more complex case, where the arguments themselves involve function calls:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">foo</span>(f <span class="op">+</span><span class="st"> </span><span class="dv">3</span>, <span class="kw">paste</span>(<span class="st">&quot;Hello,&quot;</span>, g, <span class="st">&quot;Nice to meet you.&quot;</span>)))</code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">foo</span>(f <span class="op">+</span><span class="st"> </span><span class="dv">3</span>, <span class="kw">paste</span>(<span class="st">&quot;Hello,&quot;</span>, g, <span class="st">&quot;Nice to meet you.&quot;</span>)))</a></code></pre></div>
 <p>Again, <code>y</code> is a “call” and there are three parts to it: the function name and the two arguments:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y
-<span class="co">#&gt; foo(f + 3, paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;))</span>
-<span class="kw">class</span>(y)
-<span class="co">#&gt; [1] &quot;call&quot;</span>
-<span class="kw">as.list</span>(y)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; foo</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; f + 3</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)</span>
-<span class="kw">lapply</span>(y, class)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] &quot;call&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] &quot;call&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">y</a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="co">#&gt; foo(f + 3, paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;))</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="kw">class</span>(y)</a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="co">#&gt; [1] &quot;call&quot;</span></a>
+<a class="sourceLine" id="cb31-5" title="5"><span class="kw">as.list</span>(y)</a>
+<a class="sourceLine" id="cb31-6" title="6"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb31-7" title="7"><span class="co">#&gt; foo</span></a>
+<a class="sourceLine" id="cb31-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-9" title="9"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb31-10" title="10"><span class="co">#&gt; f + 3</span></a>
+<a class="sourceLine" id="cb31-11" title="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-12" title="12"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb31-13" title="13"><span class="co">#&gt; paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)</span></a>
+<a class="sourceLine" id="cb31-14" title="14"><span class="kw">lapply</span>(y, class)</a>
+<a class="sourceLine" id="cb31-15" title="15"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb31-16" title="16"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb31-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-18" title="18"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb31-19" title="19"><span class="co">#&gt; [1] &quot;call&quot;</span></a>
+<a class="sourceLine" id="cb31-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-21" title="21"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb31-22" title="22"><span class="co">#&gt; [1] &quot;call&quot;</span></a></code></pre></div>
 <p>Note that parts 2 and 3 of <code>y</code> are no longer <code>name</code>s. Instead, they are themselves function calls. To illustrate, let’s look at the third part of the list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y[[<span class="dv">3</span>]]
-<span class="co">#&gt; paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)</span>
-<span class="kw">class</span>(y[[<span class="dv">3</span>]])
-<span class="co">#&gt; [1] &quot;call&quot;</span>
-<span class="kw">as.list</span>(y[[<span class="dv">3</span>]])
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; paste</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] &quot;Hello,&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; g</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[4]]</span>
-<span class="co">#&gt; [1] &quot;Nice to meet you.&quot;</span>
-<span class="kw">lapply</span>(y[[<span class="dv">3</span>]], class)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] &quot;character&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[4]]</span>
-<span class="co">#&gt; [1] &quot;character&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">y[[<span class="dv">3</span>]]</a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="co">#&gt; paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)</span></a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="kw">class</span>(y[[<span class="dv">3</span>]])</a>
+<a class="sourceLine" id="cb32-4" title="4"><span class="co">#&gt; [1] &quot;call&quot;</span></a>
+<a class="sourceLine" id="cb32-5" title="5"><span class="kw">as.list</span>(y[[<span class="dv">3</span>]])</a>
+<a class="sourceLine" id="cb32-6" title="6"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb32-7" title="7"><span class="co">#&gt; paste</span></a>
+<a class="sourceLine" id="cb32-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-9" title="9"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb32-10" title="10"><span class="co">#&gt; [1] &quot;Hello,&quot;</span></a>
+<a class="sourceLine" id="cb32-11" title="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-12" title="12"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb32-13" title="13"><span class="co">#&gt; g</span></a>
+<a class="sourceLine" id="cb32-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-15" title="15"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb32-16" title="16"><span class="co">#&gt; [1] &quot;Nice to meet you.&quot;</span></a>
+<a class="sourceLine" id="cb32-17" title="17"><span class="kw">lapply</span>(y[[<span class="dv">3</span>]], class)</a>
+<a class="sourceLine" id="cb32-18" title="18"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb32-19" title="19"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb32-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-21" title="21"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb32-22" title="22"><span class="co">#&gt; [1] &quot;character&quot;</span></a>
+<a class="sourceLine" id="cb32-23" title="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-24" title="24"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb32-25" title="25"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb32-26" title="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-27" title="27"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb32-28" title="28"><span class="co">#&gt; [1] &quot;character&quot;</span></a></code></pre></div>
 <p>The call <code>paste(&quot;Hello&quot;, g, &quot;Nice to meet you.&quot;)</code> is a call to the function named <code>paste</code> with three arguments. Two of these arguments are constants; they happen to be character constants. The middle argument, <code>g</code> is a name.</p>
 <p>You can evaluate a name or a call by using the <code>eval()</code> function. Of course, evaluation needs values to be assigned to any names used, so evaluating <code>y</code> will throw an error:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(y)
-<span class="co">#&gt; Error in foo(f + 3, paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)): could not find function &quot;foo&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">eval</span>(y)</a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt; Error in foo(f + 3, paste(&quot;Hello,&quot;, g, &quot;Nice to meet you.&quot;)): impossible de trouver la fonction &quot;foo&quot;</span></a></code></pre></div>
 <p><code>Quote()</code> and <code>eval()</code> (and other similar language-handling functions like <code>substitute()</code> or even the modeler’s tilde) are part of base R. They are part of how the language works. They are not part of an average user’s R toolbox because average users are in the value business: applying functions to values, not taking apart the language.</p>
 <p>Still, many users encounter situations where they are using language objects rather than values. Take the <code>subset()</code> function as used to pull out a subset of rows from a dataframe. You can use it like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset</span>(mtcars, hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>)
-<span class="co">#&gt;                 mpg cyl disp  hp drat   wt qsec vs am gear carb</span>
-<span class="co">#&gt; Ford Pantera L 15.8   8  351 264 4.22 3.17 14.5  0  1    5    4</span>
-<span class="co">#&gt; Maserati Bora  15.0   8  301 335 3.54 3.57 14.6  0  1    5    8</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">subset</span>(mtcars, hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>)</a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="co">#&gt;                 mpg cyl disp  hp drat   wt qsec vs am gear carb</span></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co">#&gt; Ford Pantera L 15.8   8  351 264 4.22 3.17 14.5  0  1    5    4</span></a>
+<a class="sourceLine" id="cb34-4" title="4"><span class="co">#&gt; Maserati Bora  15.0   8  301 335 3.54 3.57 14.6  0  1    5    8</span></a></code></pre></div>
 <p>We can take apart the command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">subset</span>(mtcars, hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>))
-<span class="kw">as.list</span>(y)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; subset</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; mtcars</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; hp &gt; 250</span>
-<span class="kw">lapply</span>(y, class)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] &quot;name&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] &quot;call&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">subset</span>(mtcars, hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>))</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">as.list</span>(y)</a>
+<a class="sourceLine" id="cb35-3" title="3"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="co">#&gt; subset</span></a>
+<a class="sourceLine" id="cb35-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb35-6" title="6"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb35-7" title="7"><span class="co">#&gt; mtcars</span></a>
+<a class="sourceLine" id="cb35-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb35-9" title="9"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb35-10" title="10"><span class="co">#&gt; hp &gt; 250</span></a>
+<a class="sourceLine" id="cb35-11" title="11"><span class="kw">lapply</span>(y, class)</a>
+<a class="sourceLine" id="cb35-12" title="12"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb35-13" title="13"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb35-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb35-15" title="15"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb35-16" title="16"><span class="co">#&gt; [1] &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb35-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb35-18" title="18"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb35-19" title="19"><span class="co">#&gt; [1] &quot;call&quot;</span></a></code></pre></div>
 <p>The first two parts of <code>y</code> are easy: <code>subset</code> is a name and <code>mtcars</code> is a name. The third part is a call. The thing that’s interesting about <code>subset()</code> from a programming point of view is that the third part cannot be evaluated as is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">quote</span>(hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>))
-<span class="co">#&gt; Error in eval(quote(hp &gt; 250)): object 'hp' not found</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">eval</span>(<span class="kw">quote</span>(hp <span class="op">&gt;</span><span class="st"> </span><span class="dv">250</span>))</a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="co">#&gt; Error in eval(quote(hp &gt; 250)): objet &#39;hp&#39; introuvable</span></a></code></pre></div>
 <p>The name <code>hp</code> doesn’t have a value. It only has meaning with respect to the <code>mtcars</code> dataframe. It’s <code>subset()</code> that contains the logic to connect <code>hp</code> to <code>mtcars</code>.</p>
 <p>The <code>rlang</code> package provides facilities for taking apart calls and ensuring that the names used in a call are linked to the environment that gives them values. <code>Checkr</code> makes extensive use of <code>rlang</code>.</p>
 </div>
 <div id="multiple-statements-within-quote" class="section level3">
 <h3>Multiple statements within <code>quote()</code></h3>
 <p>Often you will be working with submitted code with multiple statements. When using <code>quote()</code> to create examples with multiple statements, you need to enclose the statements with curly braces <code>{  }</code> and separate the statements with a semi-colon. For instance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>({who &lt;-<span class="st"> &quot;Alfred&quot;</span>; <span class="kw">paste</span>(<span class="st">&quot;Welcome,&quot;</span>, who)})
-y
-<span class="co">#&gt; {</span>
-<span class="co">#&gt;     who &lt;- &quot;Alfred&quot;</span>
-<span class="co">#&gt;     paste(&quot;Welcome,&quot;, who)</span>
-<span class="co">#&gt; }</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>({who &lt;-<span class="st"> &quot;Alfred&quot;</span>; <span class="kw">paste</span>(<span class="st">&quot;Welcome,&quot;</span>, who)})</a>
+<a class="sourceLine" id="cb37-2" title="2">y</a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="co">#&gt; {</span></a>
+<a class="sourceLine" id="cb37-4" title="4"><span class="co">#&gt;     who &lt;- &quot;Alfred&quot;</span></a>
+<a class="sourceLine" id="cb37-5" title="5"><span class="co">#&gt;     paste(&quot;Welcome,&quot;, who)</span></a>
+<a class="sourceLine" id="cb37-6" title="6"><span class="co">#&gt; }</span></a></code></pre></div>
 </div>
 <div id="assignment" class="section level3">
 <h3>Assignment</h3>
 <p>Strictly speaking, an assignment statement is a function call involving two arguments.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">quote</span>(x &lt;-<span class="st"> </span><span class="kw">foo</span>(f,g))
-<span class="kw">class</span>(y)
-<span class="co">#&gt; [1] &quot;&lt;-&quot;</span>
-<span class="kw">as.list</span>(y)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; `&lt;-`</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; x</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; foo(f, g)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">y &lt;-<span class="st"> </span><span class="kw">quote</span>(x &lt;-<span class="st"> </span><span class="kw">foo</span>(f,g))</a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="kw">class</span>(y)</a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="co">#&gt; [1] &quot;&lt;-&quot;</span></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="kw">as.list</span>(y)</a>
+<a class="sourceLine" id="cb38-5" title="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb38-6" title="6"><span class="co">#&gt; `&lt;-`</span></a>
+<a class="sourceLine" id="cb38-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb38-8" title="8"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb38-9" title="9"><span class="co">#&gt; x</span></a>
+<a class="sourceLine" id="cb38-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb38-11" title="11"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb38-12" title="12"><span class="co">#&gt; foo(f, g)</span></a></code></pre></div>
 <p>The function is called <code>`&lt;-`</code>. The first argument is the name to to use for storing the value of the second argument. The second argument is the value (perhaps constructed by evaluating a call) to be stored under the name.</p>
 <p>When using <code>checkr</code> on an assignment statement, the checking logic is performed on the expression to the right of the assignment symbol. As you’ll see later, if it’s important to your checking logic to know if assignment is involved, or what is the name being assigned to, you can write tests using the pronoun <code>Z</code>. Except for <code>Z</code>, there is no vestige of the assignment being used in the <code>checkr</code> tests.</p>
 </div>
@@ -598,10 +807,10 @@ y
 <h2>Preparing code for <code>checkr</code></h2>
 <p>In previous examples, we’ve used <code>quote()</code> to store examples of submitted code. Another way to store code, the one used in <code>learnr</code>, is as a text string. <code>Checkr</code> can work with both.</p>
 <p>Before <code>checkr</code> tests can be applied to code, you need to pre-process the code. This is the task of the <code>for_checkr()</code> function. For instance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1 &lt;-<span class="st"> </span><span class="kw">quote</span>(Bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;bee_file.csv&quot;</span>))
-code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(s1)
-<span class="co">#&gt; Warning in file(file, &quot;rt&quot;): cannot open file 'bee_file.csv': No such file</span>
-<span class="co">#&gt; or directory</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">s1 &lt;-<span class="st"> </span><span class="kw">quote</span>(Bees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;bee_file.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb39-2" title="2">code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(s1)</a>
+<a class="sourceLine" id="cb39-3" title="3"><span class="co">#&gt; Warning in file(file, &quot;rt&quot;): impossible d&#39;ouvrir le fichier</span></a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="co">#&gt; &#39;bee_file.csv&#39; : Aucun fichier ou dossier de ce type</span></a></code></pre></div>
 <p>The value created by <code>for_checkr()</code> is an object of class <code>&quot;checkr_result&quot;</code>. This has the code (and other information) in a standard format. Many of the <code>checkr</code> functions take such an object as input and return the same kind of object as output. In this way, you can cascade your logic: first testing for one thing, then another, and so on.</p>
 </div>
 <div id="checkr-functions" class="section level2">
@@ -657,22 +866,22 @@ code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(s1)
 </ul>
 For example, here’s an invocation of line_where to look for a line that creates a dataframe with a variable called “blood_pressure”.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">USER_CODE &lt;-<span class="st"> </span><span class="kw">quote</span>({x &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">cos</span>(pi)); Health &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">blood_pressure =</span> <span class="kw">c</span>(<span class="dv">120</span>, <span class="dv">130</span>, <span class="dv">115</span>))})
-code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-L1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(code, 
-                 <span class="kw">insist</span>(<span class="kw">is.data.frame</span>(V), <span class="st">&quot;Didn't find an appropriate statement producing a dataframe.&quot;</span>), 
-                 <span class="kw">insist</span>(<span class="st">&quot;blood_pressure&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(V), 
-                        <span class="st">&quot;The dataframe didn't include the variable `blood_pressure`&quot;</span>))
-L1</code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">USER_CODE &lt;-<span class="st"> </span><span class="kw">quote</span>({x &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">cos</span>(pi)); Health &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">blood_pressure =</span> <span class="kw">c</span>(<span class="dv">120</span>, <span class="dv">130</span>, <span class="dv">115</span>))})</a>
+<a class="sourceLine" id="cb40-2" title="2">code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb40-3" title="3">L1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(code, </a>
+<a class="sourceLine" id="cb40-4" title="4">                 <span class="kw">insist</span>(<span class="kw">is.data.frame</span>(V), <span class="st">&quot;Didn&#39;t find an appropriate statement producing a dataframe.&quot;</span>), </a>
+<a class="sourceLine" id="cb40-5" title="5">                 <span class="kw">insist</span>(<span class="st">&quot;blood_pressure&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(V), </a>
+<a class="sourceLine" id="cb40-6" title="6">                        <span class="st">&quot;The dataframe didn&#39;t include the variable `blood_pressure`&quot;</span>))</a>
+<a class="sourceLine" id="cb40-7" title="7">L1</a></code></pre></div>
 <p>The first test, <code>insist(is.data.frame(V))</code> means that only a line producing a dataframe can qualify. For those lines that meet this criterion, another criterion is applied: that there be a variable <code>blood_pressure</code> in the dataframe.</p>
 <ul>
 <li><code>line_calling()</code> examines each line in turn looking for a line that calls one of the listed functions either at the top level or within an argument. (In contrast, the <code>F</code> pronoun in <code>line_where()</code> is the function being called at the highest-level.) Unlike <code>line_where()</code>, no tests are needed since the existence of an appropriate call dictates pass or failure.</li>
 </ul>
 <p>For example, here’s a test for a line calling any of sine, cosine, or tangent.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L2 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, sin, cos, tan, <span class="dt">message =</span> <span class="st">&quot;No trig function called.&quot;</span>)
-L2
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Bees &lt;- read.csv(&quot;bee_file.csv&quot;) is an invalid command because cannot open the connection</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">L2 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, sin, cos, tan, <span class="dt">message =</span> <span class="st">&quot;No trig function called.&quot;</span>)</a>
+<a class="sourceLine" id="cb41-2" title="2">L2</a>
+<a class="sourceLine" id="cb41-3" title="3"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb41-4" title="4"><span class="co">#&gt; Bees &lt;- read.csv(&quot;bee_file.csv&quot;) is an invalid command because impossible d&#39;ouvrir la connexion</span></a></code></pre></div>
 <p>There are more specialized line-locating functions.</p>
 <ul>
 <li><code>line_binding()</code> checks whether the line complies with patterns that you specify and check individual components of those patterns. This is the most general of the line-locating functions, but also the most difficult to use. We discuss how to specify patterns in another section.</li>
@@ -690,35 +899,30 @@ L2
 <p>Any of these functions can apply <code>passif/failif/insist</code> tests to the argument that is found. Those tests can be written in terms of the <code>E</code> and <code>V</code> pronouns: the expression itself and the value of that expression.</p>
 <p>Each of the argument-locating functions returns a <code>&quot;checkr_result&quot;</code> containing the argument as a stand-alone expression. If that expression happens to be a function call, you can do further testing with these functions on that expression.</p>
 <p>To illustrate, consider the following submission, where we want to make sure that the data used in fitting the model has exactly 100 cases.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">USER_CODE &lt;-<span class="st"> </span><span class="kw">quote</span>(mod &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars))
-code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-L1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, lm)
-<span class="kw">named_arg</span>(L1, <span class="st">&quot;data&quot;</span>, <span class="kw">insist</span>(<span class="kw">nrow</span>(V) <span class="op">==</span><span class="st"> </span><span class="dv">100</span>, 
-                             <span class="st">&quot;Please use exactly 100 cases for fitting. You used {{nrow(V)}} cases.&quot;</span>))
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Please use exactly 100 cases for fitting. You used 32 cases.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^mtcars</span>
-<span class="co">#&gt;   env:  global</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">USER_CODE &lt;-<span class="st"> </span><span class="kw">quote</span>(mod &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars))</a>
+<a class="sourceLine" id="cb42-2" title="2">code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)</a>
+<a class="sourceLine" id="cb42-3" title="3">L1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, lm)</a>
+<a class="sourceLine" id="cb42-4" title="4"><span class="kw">named_arg</span>(L1, <span class="st">&quot;data&quot;</span>, <span class="kw">insist</span>(<span class="kw">nrow</span>(V) <span class="op">==</span><span class="st"> </span><span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb42-5" title="5">                             <span class="st">&quot;Please use exactly 100 cases for fitting. You used {{nrow(V)}} cases.&quot;</span>))</a>
+<a class="sourceLine" id="cb42-6" title="6"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb42-7" title="7"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a></code></pre></div>
 </div>
 <div id="fill-in-the-blanks" class="section level2">
 <h2>Fill in the blanks</h2>
 <p>A good pedagogical technique when introducing a subject is to start an exercise with part of the answer and ask students to fill in one or more blanks. This scaffolding approach let’s the instructor focus on one part of a command. As an example, consider this problem:</p>
 <blockquote>
 <p><strong>Exercise 14</strong>: Fill in the blanks in the following code to create a <code>ggplot2</code> command that will produce the following scatter plot with the <code>mtcars</code> data.<br />
-<img src="data:image/png;base64,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" /><!-- --></p>
+<img src="data:image/png;base64,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" /><!-- --></p>
 <p>There are four blanks. You’ll have to replace all of them with the correct contents to generate the plot.</p>
 </blockquote>
 <p>The exercise chunk might have this scaffold:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> ____, <span class="dt">y =</span> ____, <span class="dt">color =</span> ____)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">____</span>()</code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> ____, <span class="dt">y =</span> ____, <span class="dt">color =</span> ____)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-3" title="3"><span class="st">  </span><span class="kw">____</span>()</a></code></pre></div>
 <p>Let’s suppose the student’s submission, after filling in the blanks is as follows. (Note that the student has made a slight mistake!)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); 
-<span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> hp, <span class="dt">y =</span> mpg, <span class="dt">color =</span> cyl)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">library</span>(ggplot2); </a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> hp, <span class="dt">y =</span> mpg, <span class="dt">color =</span> cyl)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p>To check the submission, we need to create a pattern that will let us look up the student’s values for each of the blanks, then compare these to the correct answer. The <code>check_blanks()</code> function takes, as its second argument, an expression with the blanks. Since there are multiple blanks, each has been given a name for later reference.</p>
 <pre><code>#&gt; check_exer_14 &lt;- function( submission ) {
 #&gt;  [1]     code &lt;- for_checkr(submission)
@@ -733,20 +937,22 @@ L1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, lm)
 #&gt; [10]         passif(TRUE, &quot;Good job!&quot;)) 
 #&gt; }</code></pre>
 <p>Trying out the test …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check_exer_14</span>(submission)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; hp is not the variable on the horizontal axis.</span></code></pre></div>
-<p>In lines 4/5 of the <code>check_exer_14()</code> checking function, note that the second argument to <code>check_blanks()</code> is a command template very similar to that used for the scaffolding in the exercise chunk. But the template handed to <code>check_blanks()</code> must have the blanks written in a special format: two dots followed by a unique name followed by another two dots, e.g. <code>..geom..</code>.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">print</span>(<span class="st">&quot;check_blanks not working anymore...&quot;</span>)</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="co">#&gt; [1] &quot;check_blanks not working anymore...&quot;</span></a>
+<a class="sourceLine" id="cb46-3" title="3"><span class="co"># check_exer_14(submission)</span></a></code></pre></div>
+<p>In lines 4/5 of the <code>check_exer_14()</code> checking function, note that the second argument to <code>check_blanks()</code> is a command template very similar to that used for the scaffolding in the exercise chunk. But the template handed to <code>check_blanks()</code> must have the blanks written in a special format: two dots followed by a unique name followed by another two dots, e.g. <code>..geom..</code>.</p>
 </div>
 <div id="interaction-with-learnr" class="section level2">
 <h2>Interaction with <code>learnr</code></h2>
 <p>The interface from the <code>learnr</code> system to a code-checking system is described <a href="https://rstudio.github.io/learnr/exercises.html#exercise_checking">in the <code>learnr</code> documentation</a>. To summarise briefly:</p>
 <ol style="list-style-type: decimal">
 <li>All exercise boxes have a “Run Code” button which passes the code in the box for evaluation by <code>learnr</code>, displaying the results in the <code>learnr</code> document below the exercise box. (Let’s imagine the chunk containing the exercise block has label <code>exercise1</code>.)</li>
-<li>A “Submit” button will be included in the code box if the author adds a <code>-check</code> chunk to the document whose label refers to the corresponding exercise chunk. (For <code>exercise``, the full chunk label will be</code>exercise1-check`.)</li>
-<li><p>When “Submit” is pressed, <code>learnr</code> will call its <code>exercise.checker</code> function, passing that function a list containing the student’s submission (as text), the contents of the <code>-check</code> block (as text), as well as other information produced when the submission is evaluated. The document author specifies which checker function is to be used with a statement in the <code>setup</code> chunk like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tutorial_options</span>(<span class="dt">exercise.checker =</span> checkr<span class="op">::</span>check_for_learnr)</code></pre></div></li>
-<li><p>Adding a <code>-check-code</code> block (full label for our example: <code>exercise1-check-code</code>) will cause <code>learnr</code> to call the <code>exercise.checker</code> function <em>before</em> the code has been evaluated. There is a flag enabling the <code>exercise.checker</code> to detect whether it is being called before evaluation or after evaluation.</p></li>
+<li>A “Submit” button will be included in the code box if the author adds a <code>-check</code> chunk to the document whose label refers to the corresponding exercise chunk. (For <code>exercise</code>, the full chunk label will be <code>exercise1-check</code>.)</li>
+<li>When “Submit” is pressed, <code>learnr</code> will call its <code>exercise.checker</code> function, passing that function a list containing the student’s submission (as text), the contents of the <code>-check</code> block (as text), as well as other information produced when the submission is evaluated. The document author specifies which checker function is to be used with a statement in the <code>setup</code> chunk like this:</li>
+</ol>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">tutorial_options</span>(<span class="dt">exercise.checker =</span> checkr<span class="op">::</span>check_for_learnr)</a></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Adding a <code>-check-code</code> block (full label for our example: <code>exercise1-check-code</code>) will cause <code>learnr</code> to call the <code>exercise.checker</code> function <em>before</em> the code has been evaluated. There is a flag enabling the <code>exercise.checker</code> to detect whether it is being called before evaluation or after evaluation.</li>
 </ol>
 <p>An important consequence of evaluating the student submission before the <code>exercise.checker</code> is called is that the whole student submission must be evaluatable. If the <code>exercise.checker</code> is to play any role at all, the student submission can have no syntax errors, all objects used in the code must exist, and the functions called cannot throw an error. This seems too severe a restriction, since many student errors stem from mis-spellings and such. In principle, <code>checkr</code> functions could be set up look for mis-spellings of variable names and point them out.</p>
 <p>The <code>-check-code</code> system offers a way around this, since the checking functions can look at the code before it is evaluated. But the <code>-check-code</code> system is active only when the “Submit” button is pressed. “Run” does not activate pre-evaluation checking. The result is that students will see a different error message when “Run” is pressed than when “Submit” is pressed. Confusing!</p>
@@ -772,23 +978,23 @@ L1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(code, lm)
 <h2>Anticipating student errors</h2>
 <p>When developing checking code, you likely have in mind some typical mistakes that a student might make. For instance, in trigonometry, it’s common to confuse the cosine with the sine. You might want to include checking statements that look specifically for a particular mistake and give a tailored feedback message.</p>
 <p>The <code>misconception()</code> function can be useful here. The idea <code>misconception()</code> is that you design a test that checks whether the misconceived pattern is present. The test is written in ordinary <code>checkr</code> statements, for example as <code>miss1</code> in the following example. A failed result from that test means that the misconception is not in evidence in the student’s submission. The <code>misconception()</code> function turns a passing test (that is, the misconception is present) into a failed test. Somewhat awkwardly, <code>misconception()</code> takes as a first argument the <code>&quot;checkr_result&quot;</code> being tested for the misconception. This is so because in the absence of positive test, the output of <code>misconception()</code> is the statement being tested, rather than the result of the test itself.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CODE &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(<span class="kw">quote</span>(<span class="dv">15</span> <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(<span class="dv">53</span>)))
-t1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(CODE, sin, cos, tan, <span class="dt">message =</span> <span class="st">&quot;You should be using a trigonometric function.&quot;</span>)
-miss1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(t1, cos)
-t1 &lt;-<span class="st"> </span><span class="kw">misconception</span>(t1, miss1, <span class="dt">message =</span> <span class="st">&quot;Are you sure cosine is the right choice?&quot;</span>)
-t1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(t1, 
-                 <span class="kw">insist</span>(F <span class="op">==</span><span class="st"> &quot;*&quot;</span>, 
-                        <span class="st">&quot;Remember to multiply by the length of the hypotenuse&quot;</span>))
-<span class="kw">line_where</span>(t1, <span class="kw">insist</span>(<span class="kw">is.numeric</span>(V)), 
-           <span class="kw">insist</span>(<span class="kw">abs</span>(V <span class="op">-</span><span class="st"> </span><span class="fl">11.98</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span>, 
-                  <span class="st">&quot;{{V}} is a wrong numerical result. It should be about 11.98.&quot;</span>))
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Are you sure cosine is the right choice?</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^15 * cos(53)</span>
-<span class="co">#&gt;   env:  global</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">CODE &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(<span class="kw">quote</span>(<span class="dv">15</span> <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(<span class="dv">53</span>)))</a>
+<a class="sourceLine" id="cb49-2" title="2">t1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(CODE, sin, cos, tan, <span class="dt">message =</span> <span class="st">&quot;You should be using a trigonometric function.&quot;</span>)</a>
+<a class="sourceLine" id="cb49-3" title="3">miss1 &lt;-<span class="st"> </span><span class="kw">line_calling</span>(t1, cos)</a>
+<a class="sourceLine" id="cb49-4" title="4">t1 &lt;-<span class="st"> </span><span class="kw">misconception</span>(t1, miss1, <span class="dt">message =</span> <span class="st">&quot;Are you sure cosine is the right choice?&quot;</span>)</a>
+<a class="sourceLine" id="cb49-5" title="5">t1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(t1, </a>
+<a class="sourceLine" id="cb49-6" title="6">                 <span class="kw">insist</span>(F <span class="op">==</span><span class="st"> &quot;*&quot;</span>, </a>
+<a class="sourceLine" id="cb49-7" title="7">                        <span class="st">&quot;Remember to multiply by the length of the hypotenuse&quot;</span>))</a>
+<a class="sourceLine" id="cb49-8" title="8"><span class="kw">line_where</span>(t1, <span class="kw">insist</span>(<span class="kw">is.numeric</span>(V)), </a>
+<a class="sourceLine" id="cb49-9" title="9">           <span class="kw">insist</span>(<span class="kw">abs</span>(V <span class="op">-</span><span class="st"> </span><span class="fl">11.98</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span>, </a>
+<a class="sourceLine" id="cb49-10" title="10">                  <span class="st">&quot;{{V}} is a wrong numerical result. It should be about 11.98.&quot;</span>))</a>
+<a class="sourceLine" id="cb49-11" title="11"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb49-12" title="12"><span class="co">#&gt; Are you sure cosine is the right choice?</span></a>
+<a class="sourceLine" id="cb49-13" title="13"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb49-14" title="14"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb49-15" title="15"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb49-16" title="16"><span class="co">#&gt; expr: ^15 * cos(53)</span></a>
+<a class="sourceLine" id="cb49-17" title="17"><span class="co">#&gt; env:  global</span></a></code></pre></div>
 </div>
 <div id="testing-chains" class="section level2">
 <h2>Testing chains</h2>
@@ -796,49 +1002,40 @@ t1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(t1,
 <p><code>Magrittr</code> statements chain together a sequence of function calls, with the output of one function call becoming the input to the next function call.</p>
 <p>If you are teaching about <code>magrittr</code> itself (perhaps as used in <code>dplyr</code> or <code>ggformula</code>) you may have exercises that are about constructing a chain. For instance:</p>
 <blockquote>
-<p><strong>Exercise 9</strong>: Consider the following wrangling statement:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">group_by</span>(mtcars, cyl)
-<span class="kw">summarise</span>(res, <span class="dt">disp =</span> <span class="kw">mean</span>(disp))</code></pre></div>
-<p>Rewrite it as a chain.</p>
+<p><strong>Exercise 9</strong>: Consider the following wrangling statement: ```r res &lt;- group_by(mtcars, cyl) summarise(res, disp = mean(disp))</p>
 </blockquote>
-<p>The checking function needs to make sure the task is accomplished, like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chk_exer_<span class="dv">9</span> &lt;-<span class="st"> </span><span class="cf">function</span>(USER_CODE) {
-  code &lt;-<span class="st"> </span><span class="kw">for_checkr</span>(USER_CODE)
-  t1 &lt;-<span class="st"> </span><span class="kw">line_chaining</span>(code, <span class="dt">message =</span> <span class="st">&quot;Remember, chains involve `%&gt;%`.&quot;</span>)
-  <span class="kw">check</span>(t1, 
-        <span class="kw">insist</span>(<span class="kw">identical</span>(V, mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">disp =</span> <span class="kw">mean</span>(disp))), 
-               <span class="st">&quot;Your chain doesn't produce the right value.&quot;</span>),
-        <span class="kw">passif</span>(<span class="ot">TRUE</span>, <span class="st">&quot;Great!&quot;</span>))
-}</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chk_exer_9</span>(<span class="st">&quot;mtcars %&gt;% group_by(cyl) %&gt;% summarise(disp = mean(disp))&quot;</span>)
-<span class="co">#&gt; checkr result *pass* with message:</span>
-<span class="co">#&gt; Great!</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^mtcars %&gt;% group_by(cyl) %&gt;% summarise(disp = mean(disp))</span>
-<span class="co">#&gt;   env:  0x7f8ed46cd308</span>
-<span class="kw">chk_exer_9</span>(<span class="st">&quot;mtcars %&gt;% group_by(hp) %&gt;% summarise(disp = mean(disp))&quot;</span>)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Your chain doesn't produce the right value.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^mtcars %&gt;% group_by(hp) %&gt;% summarise(disp = mean(disp))</span>
-<span class="co">#&gt;   env:  0x7f8ed6b52318</span>
-<span class="kw">chk_exer_9</span>(<span class="st">&quot;res &lt;- group_by(mtcars, cyl); summarise(res, disp = mean(disp))&quot;</span>)
-<span class="co">#&gt; checkr result *fail* with message:</span>
-<span class="co">#&gt; Remember, chains involve `%&gt;%`.</span>
-<span class="co">#&gt; CODE:</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^res &lt;- group_by(mtcars, cyl)</span>
-<span class="co">#&gt;   env:  0x7f8ed47775f0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; &lt;quosure&gt;</span>
-<span class="co">#&gt;   expr: ^summarise(res, disp = mean(disp))</span>
-<span class="co">#&gt;   env:  0x7f8ed4775698</span></code></pre></div>
+<pre><code>    Rewrite it as a chain.
+    
+The checking function needs to make sure the task is accomplished, like this:
+
+```r
+chk_exer_9 &lt;- function(USER_CODE) {
+  code &lt;- for_checkr(USER_CODE)
+  t1 &lt;- line_chaining(code, message = &quot;Remember, chains involve `%&gt;%`.&quot;)
+  check(t1, 
+        insist(identical(V, mtcars %&gt;% group_by(cyl) %&gt;% summarise(disp = mean(disp))), 
+               &quot;Your chain doesn&#39;t produce the right value.&quot;),
+        passif(TRUE, &quot;Great!&quot;))
+}</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">chk_exer_9</span>(<span class="st">&quot;mtcars %&gt;% group_by(cyl) %&gt;% summarise(disp = mean(disp))&quot;</span>)</a>
+<a class="sourceLine" id="cb51-2" title="2"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb51-3" title="3"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a>
+<a class="sourceLine" id="cb51-4" title="4"><span class="kw">chk_exer_9</span>(<span class="st">&quot;mtcars %&gt;% group_by(hp) %&gt;% summarise(disp = mean(disp))&quot;</span>)</a>
+<a class="sourceLine" id="cb51-5" title="5"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb51-6" title="6"><span class="co">#&gt; Error : Column `~` not found in `.data`</span></a>
+<a class="sourceLine" id="cb51-7" title="7"><span class="kw">chk_exer_9</span>(<span class="st">&quot;res &lt;- group_by(mtcars, cyl); summarise(res, disp = mean(disp))&quot;</span>)</a>
+<a class="sourceLine" id="cb51-8" title="8"><span class="co">#&gt; checkr result *fail* with message:</span></a>
+<a class="sourceLine" id="cb51-9" title="9"><span class="co">#&gt; Remember, chains involve `%&gt;%`.</span></a>
+<a class="sourceLine" id="cb51-10" title="10"><span class="co">#&gt; CODE:</span></a>
+<a class="sourceLine" id="cb51-11" title="11"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb51-12" title="12"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb51-13" title="13"><span class="co">#&gt; expr: ^res &lt;- group_by(mtcars, cyl)</span></a>
+<a class="sourceLine" id="cb51-14" title="14"><span class="co">#&gt; env:  0x561fbe39e8c0</span></a>
+<a class="sourceLine" id="cb51-15" title="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb51-16" title="16"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb51-17" title="17"><span class="co">#&gt; &lt;quosure&gt;</span></a>
+<a class="sourceLine" id="cb51-18" title="18"><span class="co">#&gt; expr: ^summarise(res, disp = mean(disp))</span></a>
+<a class="sourceLine" id="cb51-19" title="19"><span class="co">#&gt; env:  0x561fbe39c7e0</span></a></code></pre></div>
 <p>But often, you may not be directly concerned about the use of chains, but want to be able to check code where the student might have chosen to use a chain. <code>Checkr</code> adopts a simple strategy for enabling you to check code whether it be written in chain form or in a traditional line-by-line form. That strategy is to expand chains into the line-by-line form. As a result, you can write tests assuming a line-by-line form. Before applying those tests, expand any chains into their line-by-line form.</p>
 <p>An expression containing a <code>magrittr</code> chain is a function call. The top-level function is <code>`%&gt;%`</code>. Insofar as you are concerned with the end value of the chain, or with whether the chain calls a specified function, you can use the regular line-locating functions like <code>line_where()</code> or <code>line_calling()</code>. You can also use the argument-locating functions on the whole chain.</p>
 <ul>
@@ -877,18 +1074,18 @@ t1 &lt;-<span class="st"> </span><span class="kw">line_where</span>(t1,
 <ul>
 <li>If you want to allow assignment to any of several names, try <code>`&lt;-`(.(nm), ...)</code> as the pattern and <code>nm == quote(x) || nm == quote(X)</code> as the test:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">if_matches</span>(<span class="kw">quote</span>(x &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>), <span class="st">`</span><span class="dt">&lt;-</span><span class="st">`</span>(.(nm), <span class="kw">..</span>(val)), 
-           <span class="kw">passif</span>(nm <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(X) <span class="op">||</span><span class="st"> </span>nm <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(x), <span class="st">&quot;{{nm}} was assigned the value {{val}}&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">if_matches</span>(<span class="kw">quote</span>(x &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>), <span class="st">`</span><span class="dt">&lt;-</span><span class="st">`</span>(.(nm), <span class="kw">..</span>(val)), </a>
+<a class="sourceLine" id="cb52-2" title="2">           <span class="kw">passif</span>(nm <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(X) <span class="op">||</span><span class="st"> </span>nm <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(x), <span class="st">&quot;{{nm}} was assigned the value {{val}}&quot;</span>))</a></code></pre></div>
 <ul>
 <li>Notice that the pattern has a single dot (<code>.(nm)</code>) for the assigned-to part of pattern. Similarly, the value to which it’s being compared is in <code>quote()</code>, as appropriate for matching a language-name object.</li>
 </ul></li>
 <li>Distinguish between <code>.(a)</code> and <code>..(a)</code>. Suppose you want to check which trigonometric function has been used in a command like <code>quote(cos(x))</code>. An appropriate pattern would be <code>.(fn)(...)</code>, like this:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">submission &lt;-<span class="st"> </span><span class="kw">quote</span>({x &lt;-<span class="st"> </span>pi; <span class="kw">cos</span>(x)})
-pattern &lt;-<span class="st"> </span><span class="kw">quote</span>(.(fn)(.(var))) <span class="co"># will have to unquote</span>
-<span class="kw">if_matches</span>(submission, <span class="op">!!</span>pattern, <span class="kw">passif</span>(<span class="ot">TRUE</span>, <span class="st">&quot;Found match&quot;</span>))
-<span class="kw">if_matches</span>(submission, .(fn)(.(var)),
-           <span class="kw">passif</span>(fn <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(cos) <span class="op">&amp;&amp;</span><span class="st"> </span>var <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(x), <span class="st">&quot;Right. The function is {{fn}} on variable {{var}}.&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">submission &lt;-<span class="st"> </span><span class="kw">quote</span>({x &lt;-<span class="st"> </span>pi; <span class="kw">cos</span>(x)})</a>
+<a class="sourceLine" id="cb53-2" title="2">pattern &lt;-<span class="st"> </span><span class="kw">quote</span>(.(fn)(.(var))) <span class="co"># will have to unquote</span></a>
+<a class="sourceLine" id="cb53-3" title="3"><span class="kw">if_matches</span>(submission, <span class="op">!!</span>pattern, <span class="kw">passif</span>(<span class="ot">TRUE</span>, <span class="st">&quot;Found match&quot;</span>))</a>
+<a class="sourceLine" id="cb53-4" title="4"><span class="kw">if_matches</span>(submission, .(fn)(.(var)),</a>
+<a class="sourceLine" id="cb53-5" title="5">           <span class="kw">passif</span>(fn <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(cos) <span class="op">&amp;&amp;</span><span class="st"> </span>var <span class="op">==</span><span class="st"> </span><span class="kw">quote</span>(x), <span class="st">&quot;Right. The function is {{fn}} on variable {{var}}.&quot;</span>))</a></code></pre></div>
 </div>
 </div>
 <div id="some-kinds-of-questions" class="section level2">

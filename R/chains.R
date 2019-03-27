@@ -7,7 +7,7 @@
 #' calls: `h(g(f(a)))`. It's also equivalent to a
 #' sequence of statements: `. <- f(a); . <- g(.); h(.)` Expanding a chain means to rewrite it
 #' into this last form. Note that `.` is an object name. It's value changes at each statement (except the last, which
-#' is the result returned by the chain). By expanding a chain, you can use `checkr` statements to look at individual
+#' is the result returned by the chain). By expanding a chain, you can use `checktutorials` statements to look at individual
 #' function calls in the chain.
 #'
 #' `expand_chain()` expands one chain. `expand_all_chains()` takes a sequence of lines, some of

@@ -1,14 +1,14 @@
 ---
-title: "Examples for `checkr`"
+title: "Examples for `checktutorials`"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(checkr)
+library(checktutorials)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = checktutorials::check_for_learnr)
 # tutorial_options(exercise.checker = function(...) cat("Bogus checker\n"))
 ```
 
@@ -41,7 +41,7 @@ rep(1:4, .... = 3)
 ```
 
 ```{r bunch-1-a-check, echo = FALSE}
-checkr:::rep_1245(USER_CODE)
+checktutorials:::rep_1245(USER_CODE)
 ```
 
 
@@ -67,7 +67,7 @@ rep(...., length.out = 12)
 ```
 
 ```{r bunch-1-b-check, echo = FALSE}
-checkr:::rep_abcd(USER_CODE)
+checktutorials:::rep_abcd(USER_CODE)
 ```
 
 
@@ -93,6 +93,6 @@ df <- data.frame(x = x, y = y, Id = Id)
 
 ```{r bunch-1-c-check, echo = FALSE}
 #USER_CODE <- "Id <- rep(1:4, each=3); x <- seq(1, 43, length = length(Id)); y <- seq(-20, 0, length = length(Id)); df <- data.frame(x=x, y = y, Id = Id)"
-checkr:::df_abcd_1234_x_y(USER_CODE)
+checktutorials:::df_abcd_1234_x_y(USER_CODE)
 ```
 

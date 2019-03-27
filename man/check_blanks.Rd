@@ -28,6 +28,7 @@ shown a statement like \code{mean( ~ hp, data = mtcars)}, the blanks statement s
 In \code{pat}, you can use \code{.} (for a name or call) and \code{...} (for remaining arguments) to stand for components of the pattern you don't care about.
 }
 \examples{
+\dontrun{
 submission <- for_checkr(quote({a <- 3; b <- 4; res <- sqrt(a^2 + b^2)}))
 submission2 <- for_checkr(quote({a <- 3; b <- 4; res <- sin(a^2 + b^2)}))
 # a template with a blank ..fn..
@@ -45,4 +46,5 @@ check_blanks(submission, list(as_posted, as_posted2),
 
 # Multiple blanks
 as_posted <- for_checkr(quote({res <- ..fn..(`+`(`^`(a, ..exp1..), `^`(b, ..exp2..)))}))
+}
 }

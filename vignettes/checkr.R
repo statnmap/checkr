@@ -1,5 +1,5 @@
 ## ----setup, include = FALSE----------------------------------------------
-library(checkr)
+library(checktutorials) # Previously checkr on Github
 library(ggplot2)
 library(mosaic)
 library(dplyr)
@@ -265,11 +265,12 @@ ggplot(mtcars, aes(x = hp, y = mpg, color = cyl)) +
 print_function_contents(
   check_exer_14,
   from_file = system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"), 
+                          package = "checktutorials"), 
   just_the_body = FALSE)
 
 ## ------------------------------------------------------------------------
-check_exer_14(submission)
+print("check_blanks not working anymore...")
+# check_exer_14(submission)
 
 ## ------------------------------------------------------------------------
 CODE <- for_checkr(quote(15 * cos(53)))

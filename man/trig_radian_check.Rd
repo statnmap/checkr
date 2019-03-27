@@ -5,7 +5,8 @@
 \title{Check that argument is in radians}
 \usage{
 trig_radian_check(ex, radian_val,
-  message = "Could not find call to a trigonometric function", eps = 0.001)
+  message = "Could not find call to a trigonometric function",
+  eps = 0.001)
 }
 \arguments{
 \item{ex}{A \code{checkr_result}, presumably containing a call to a trig function.}

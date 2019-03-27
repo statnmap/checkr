@@ -4,9 +4,9 @@
 \alias{check_for_learnr}
 \title{Interface for checking learnr exercises.}
 \usage{
-check_for_learnr(label = NULL, user_code = NULL, solution_code = NULL,
-  check_code = NULL, envir_result = NULL, evaluate_result = NULL, ...,
-  debug = FALSE)
+check_for_learnr(label = NULL, user_code = NULL,
+  solution_code = NULL, check_code = NULL, envir_result = NULL,
+  evaluate_result = NULL, ..., debug = FALSE)
 }
 \arguments{
 \item{label}{argument passed by learnr system}
@@ -27,9 +27,9 @@ check_for_learnr(label = NULL, user_code = NULL, solution_code = NULL,
 must be set at compile time, it's not for users.}
 }
 \description{
-This is the interface from learnr to checkr. You don't call this function directly: that will be
+This is the interface from learnr to checktutorials You don't call this function directly: that will be
 done by learnr. Instead, you have to tell learnr to use this function. Do this with a directive
-in the setup chunk of the learnr document: \code{tutorial_options(exercise.checker = checkr::check_for_learnr)}
+in the setup chunk of the learnr document: \code{tutorial_options(exercise.checker = checktutorials::check_for_learnr)}
 }
 \examples{
 # as it would be called from the learnr system ...

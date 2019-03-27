@@ -36,6 +36,7 @@ from separate arguments to \code{grab_bindings()}, each pattern must be quoted, 
 Note that the patterns should include assignment if there is to be any.
 }
 \examples{
+\dontrun{
 ex <- for_checkr(quote(plot(mpg ~ wt, data = subset(mtcars, hp < 150))))
 grab_bindings(ex, quote(.(fn)(.(formula), data = .(the_data))))
 ex2 <- for_checkr(quote({x <- 1; y <- x^2}))
@@ -46,4 +47,5 @@ grab_bindings(ex2, quote(`<-`(x, ..(first))),
 grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(`+`(.(a), .(b))))
 grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(.(fn)(3 + 2)))
 grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(`-`(.(a), .(b))))
+}
 }

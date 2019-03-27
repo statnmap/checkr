@@ -1,7 +1,7 @@
-Package: checkr
+Package: checktutorials
 Type: Package
 Title: Facilities for checking R submissions in tutorials
-Version: 0.3.0
+Version: 0.3.0.9000
 Author: Daniel Kaplan
 Maintainer: Daniel Kaplan <kaplan@macalester.edu>
 Description: Helps check code submissions for learnr tutorials.
@@ -18,6 +18,6 @@ Suggests: knitr,
     ggplot2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

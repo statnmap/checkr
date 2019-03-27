@@ -8,16 +8,10 @@
 \alias{list_arg}
 \alias{table_arg}
 \alias{first_arg}
-\alias{data_arg}
-\alias{matrix_arg}
-\alias{vector_arg}
 \alias{character_arg}
 \alias{numeric_arg}
-\alias{list_arg}
 \alias{function_arg}
-\alias{table_arg}
 \alias{arg_number}
-\alias{first_arg}
 \alias{named_arg}
 \title{Functions to extract an the argument from an expression}
 \usage{

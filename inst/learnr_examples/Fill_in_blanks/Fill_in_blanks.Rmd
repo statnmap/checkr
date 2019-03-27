@@ -1,16 +1,16 @@
 ---
-title: "Fill in the blanks in `checkr`"
+title: "Fill in the blanks in `checktutorials`"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(checkr)
+library(checktutorials)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = checktutorials::check_for_learnr)
 source(system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"))
+                          package = "checktutorials"))
 ```
 
 ## Problem 1

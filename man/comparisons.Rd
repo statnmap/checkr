@@ -39,8 +39,6 @@
 \alias{string}
 \alias{corresponding}
 \alias{`\%same_as\%`}
-\alias{\%not_same_as\%}
-\alias{same_name}
 \title{Comparison operators for bindings}
 \usage{
 e1 \%same_as\% e2

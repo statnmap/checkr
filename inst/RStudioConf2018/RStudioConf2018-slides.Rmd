@@ -11,9 +11,9 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(checkr)
+library(checktutorials)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = checktutorials::check_for_learnr)
 
 cruel_remarks <- c("Really?", "Think about it!", "Maybe you shouldn't major in this field.",
 "Perhaps you should review the textbook.", "Look carefully at what you did.", "No!",
@@ -26,7 +26,7 @@ trig_2_check <- function(USER_CODE) {
   if (failed(t1)) return(t1)
   a1 <- trig_radian_check(t1, 53*pi/180)
   if (failed(a1)) return(a1)
-  t2 <- line_where(code, insist(F == "*"", "Remember to multiply by the length of the hypotenuse."))
+  t2 <- line_where(code, insist(F == "*", "Remember to multiply by the length of the hypotenuse."))
   t3 <- arg_calling(t2, `*`)
 
   a1 <- arg_number(t3, 1, insist(V == 15, "How long is the hypothenuse? It says right on the diagram."))
@@ -47,7 +47,7 @@ cruel_trig <- function(USER_CODE) {
 cruel_trig("11.98")
 
 source(system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"))
+                          package = "checktutorials"))
 ```
 
 ## Scaffolding, hints, and solutions 
@@ -138,12 +138,12 @@ trig_2_check(USER_CODE)
 
 ### The man behind the curtain
 
-Ordinarily, you would not show students the `checkr` statements implementing this behavior. But our purpose here is to introduce `checkr`, So here are the statements for the above exercise.
+Ordinarily, you would not show students the `checktutorials` statements implementing this behavior. But our purpose here is to introduce `checktutorials`, So here are the statements for the above exercise.
 
 ```{r echo = FALSE, comment = "", tidy = FALSE}
 print_function_contents(
   trig_2_check)
-#  from_file = system.file("learnr_examples/internal-examples.R", package = "checkr"))
+#  from_file = system.file("learnr_examples/internal-examples.R", package = "checktutorials"))
 ```
 
 Breaking this down, line by line:
@@ -212,11 +212,11 @@ No!
 But to give hints without context seems strange, yet this is what 
 the `learnr` `-hint` system does.
 
-## rlang, redpen, and checkr
+## rlang, redpen, and checktutorials
 
 ### The foundation
 
-`checkr` is based on the `rlang` and `redpen` packages. Two basic technologies:
+`checktutorials` is based on the `rlang` and `redpen` packages. Two basic technologies:
 
 1. Associating an environment with every code excerpt, so that it can be evaluated in isolation.
 2. Pattern binding that lets you associate any function call or argument with a name. Per (1), the name can then be checked or evaluated.
@@ -231,7 +231,7 @@ redpen::node_match(submission,
                    15 * sin(..(ang)) ~ ang)
 ```
 
-### `checkr` adds ...
+### `checktutorials` adds ...
 
 * Dealing with multiple lines of code.
 * A framework for dealing with assignment, 
@@ -305,7 +305,7 @@ The checking code:
 print_function_contents(
   check_exer_14,
   from_file = system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"), 
+                          package = "checktutorials"), 
   just_the_body = FALSE)
 ```
 
@@ -371,4 +371,4 @@ Among other things:
 
 - needs better parse-time diagnostics (e.g. <https://github.com/stephdesilva/helpPlease>, <https://github.com/noamross/zero-dependency-problems>)
 - better spell-check (e.g. <https://github.com/wrathematics/Rdym>)
-- experience programming with `checkr` may lead to better high-level functions for simplifying checking, like `check_blanks`. We need to dig the *Pit of Success* 
+- experience programming with `checktutorials` may lead to better high-level functions for simplifying checking, like `check_blanks`. We need to dig the *Pit of Success* 

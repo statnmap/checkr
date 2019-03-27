@@ -5,9 +5,6 @@
 \alias{failif}
 \alias{noteif}
 \alias{insist}
-\alias{failif}
-\alias{noteif}
-\alias{insist}
 \title{Collate a test expression with a message and a action.}
 \usage{
 passif(test, message = default_message)

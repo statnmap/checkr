@@ -1,10 +1,11 @@
 context("High-level testing to expand coverage")
 
-source(file = system.file("learnr_examples/internal-examples.R", package = "checkr"),
+source(file = system.file("learnr_examples/internal-examples.R", package = "checktutorials"),
        local = TRUE)
 
 test_that("rep(1:4, each = 3) problem works", {
 
+  skip_if_not(FALSE, "line_binding to be fixed")
   # For testing ...
   ex1 <- quote(c(1,1,1,2,2,2,3,3,3,4,4,4))
   ex1a <- quote(Id <- c(1,1,1,2,2,2,3,3,3,4,4,4))

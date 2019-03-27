@@ -4,8 +4,8 @@
 \alias{line_calling}
 \title{Find a line calling a function}
 \usage{
-line_calling(ex, ..., n = 1L, message = "Didn't find matching function.",
-  just_the_fun = FALSE)
+line_calling(ex, ..., n = 1L,
+  message = "Didn't find matching function.", just_the_fun = FALSE)
 }
 \arguments{
 \item{ex}{a checkr_result from a previous application of a checkr function, e.g. \code{for_checkr()}}

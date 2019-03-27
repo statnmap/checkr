@@ -1,8 +1,8 @@
 #' Interface for checking learnr exercises.
 #'
-#' This is the interface from learnr to checkr. You don't call this function directly: that will be
+#' This is the interface from learnr to checktutorials You don't call this function directly: that will be
 #' done by learnr. Instead, you have to tell learnr to use this function. Do this with a directive
-#' in the setup chunk of the learnr document: `tutorial_options(exercise.checker = checkr::check_for_learnr)`
+#' in the setup chunk of the learnr document: `tutorial_options(exercise.checker = checktutorials::check_for_learnr)`
 #'
 #' @param label argument passed by learnr system
 #' @param user_code ditto

@@ -16,6 +16,7 @@
 #'
 #' @details In `pat`, you can use `.` (for a name or call) and `...` (for remaining arguments) to stand for components of the pattern you don't care about.
 #' @examples
+#' \dontrun{
 #' submission <- for_checkr(quote({a <- 3; b <- 4; res <- sqrt(a^2 + b^2)}))
 #' submission2 <- for_checkr(quote({a <- 3; b <- 4; res <- sin(a^2 + b^2)}))
 #' # a template with a blank ..fn..
@@ -33,6 +34,7 @@
 #'
 #' # Multiple blanks
 #' as_posted <- for_checkr(quote({res <- ..fn..(`+`(`^`(a, ..exp1..), `^`(b, ..exp2..)))}))
+#' }
 #' @export
 check_blanks <- function(ex, pat, ...) {
   stopifnot(inherits(ex, "checkr_result"))
